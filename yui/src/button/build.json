@@ -1,0 +1,10 @@
+{
+    "name": "moodle-atto_question-button",
+    "builds": {
+        "moodle-atto_question-button": {
+            "jsfiles": [
+                "button.js"
+            ]
+        }
+    }
+}
