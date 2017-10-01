@@ -169,14 +169,27 @@ Y.namespace('M.atto_question').Button = Y.Base.create('button', Y.M.editor_atto.
         }).hide();
 
         var flavorcontrol = this._form.one(SELECTORS.FLAVORCONTROL);
+        var flavorvalue = flavorcontrol.get('value');
 
-        // If no file is there to insert, don't do it.
-        if (!flavorcontrol.get('value')){
+        // Check is there
+        if (!flavorvalue) {
             return;
         }
 
+        // Check is an integer
+        var isnum = /^\d+$/.test(flavorvalue);
+        if (!isnum) {
+            return;
+        }
+         
+        // build content here: {QUESTION} tags and hashed version of the number
+        // I'm just going to obfuscate the number, hashing maybe overkill also
+        // passing the hash decode to PHP is beyond me.
+        var obscure = parseInt(flavorvalue) * 7 + 199;
+        var content = '{QUESTION:' + obscure + '}';
+
         this.editor.focus();
-        this.get('host').insertContentAtFocusPoint(flavorcontrol.get('value'));
+        this.get('host').insertContentAtFocusPoint(content);
         this.markUpdated();
 
     }
