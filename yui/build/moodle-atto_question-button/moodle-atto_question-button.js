@@ -34,23 +34,28 @@ YUI.add('moodle-atto_question-button', function (Y, NAME) {
  */
 
 var COMPONENTNAME = 'atto_question';
-var FLAVORCONTROL = 'question_flavor';
+var TEXTLINKCONTROL = 'question_link';
+var QUESTIONIDCONTROL = 'question_number';
 var LOGNAME = 'atto_question';
 
 var CSS = {
         INPUTSUBMIT: 'atto_media_urlentrysubmit',
         INPUTCANCEL: 'atto_media_urlentrycancel',
-        FLAVORCONTROL: 'flavorcontrol'
+        TEXTLINKCONTROL: 'textlinkcontrol',
+        QUESTIONIDCONTROL: 'questionidcontrol'
     },
     SELECTORS = {
-        FLAVORCONTROL: '.flavorcontrol'
+        TEXTLINKCONTROL: '.textlinkcontrol',
+        QUESTIONIDCONTROL: '.questionidcontrol'
     };
 
 var TEMPLATE = '' +
     '<form class="atto_form">' +
         '<div id="{{elementid}}_{{innerform}}" class="mdl-align">' +
-            '<label for="{{elementid}}_{{FLAVORCONTROL}}">{{get_string "enterflavor" component}}</label>' +
-            '<input class="{{CSS.FLAVORCONTROL}}" id="{{elementid}}_{{FLAVORCONTROL}}" name="{{elementid}}_{{FLAVORCONTROL}}" value="{{defaultflavor}}" />' +
+            '<label for="{{elementid}}_{{TEXTLINKCONTROL}}">{{get_string "enterlinktext" component}}</label>' +
+            '<input class="{{CSS.TEXTLINKCONTROL}}" id="{{elementid}}_{{TEXTLINKCONTROL}}" name="{{elementid}}_{{TEXTLINKCONTROL}}" value="{{defaulttextlink}}" />' +
+            '<label for="{{elementid}}_{{QUESTIONIDCONTROL}}">{{get_string "enterquestionid" component}}</label>' +
+            '<input class="{{CSS.QUESTIONIDCONTROL}}" id="{{elementid}}_{{QUESTIONIDCONTROL}}" name="{{elementid}}_{{QUESTIONIDCONTROL}}" value="{{defaultquestionid}}" />' +
             '<button class="{{CSS.INPUTSUBMIT}}">{{get_string "insert" component}}</button>' +
         '</div>' +
         'icon: {{clickedicon}}'  +
@@ -88,14 +93,14 @@ Y.namespace('M.atto_question').Button = Y.Base.create('button', Y.M.editor_atto.
     },
 
     /**
-     * Get the id of the flavor control where we store the ice cream flavor
+     * Get the id of the text link control where we store the link text for the question
      *
-     * @method _getFlavorControlName
-     * @return {String} the name/id of the flavor form field
+     * @method _getTextLinkControlName
+     * @return {String} the txt for the text link form field
      * @private
      */
-    _getFlavorControlName: function(){
-        return(this.get('host').get('elementid') + '_' + FLAVORCONTROL);
+    _getTextLinkControlName: function(){
+        return(this.get('host').get('elementid') + '_' + TEXTLINKCONTROL);
     },
 
      /**
@@ -146,10 +151,13 @@ Y.namespace('M.atto_question').Button = Y.Base.create('button', Y.M.editor_atto.
             content = Y.Node.create(template({
                 elementid: this.get('host').get('elementid'),
                 CSS: CSS,
-                FLAVORCONTROL: FLAVORCONTROL,
+                TEXTLINKCONTROL: TEXTLINKCONTROL,
                 component: COMPONENTNAME,
-                defaultflavor: this.get('defaultflavor'),
-                clickedicon: clickedicon
+                defaultflavor: this.get('defaulttextlink'),
+                QUESTIONIDCONTROL: QUESTIONIDCONTROL,
+                component: COMPONENTNAME,
+                defaultflavor: this.get('defaultquestionid')
+                //clickedicon: clickedicon
             }));
 
         this._form = content;
@@ -168,16 +176,27 @@ Y.namespace('M.atto_question').Button = Y.Base.create('button', Y.M.editor_atto.
             focusAfterHide: null
         }).hide();
 
-        var flavorcontrol = this._form.one(SELECTORS.FLAVORCONTROL);
-        var flavorvalue = flavorcontrol.get('value');
+        // deal with the link text
+        var linkcontrol = this._form.one(SELECTORS.TEXTLINKCONTROL);
+        var linkvalue = linkcontrol.get('value');
 
         // Check is there
-        if (!flavorvalue) {
+        if (!linkvalue) {
             return;
         }
 
-        // Check is an integer
-        var isnum = /^\d+$/.test(flavorvalue);
+        // get the question number
+        var idcontrol = this._form.one(SELECTORS.QUESTIONIDCONTROL);
+        var idvalue = idcontrol.get('value');
+
+        // Check is there
+        if (!idvalue) {
+            return;
+        }
+
+
+        //  Check is an integer - use this for the question ID
+        var isnum = /^\d+$/.test(idvalue);
         if (!isnum) {
             return;
         }
@@ -185,8 +204,8 @@ Y.namespace('M.atto_question').Button = Y.Base.create('button', Y.M.editor_atto.
         // build content here: {QUESTION} tags and hashed version of the number
         // I'm just going to obfuscate the number, hashing maybe overkill also
         // passing the hash decode to PHP is beyond me.
-        var obscure = parseInt(flavorvalue) * 7 + 199;
-        var content = '{QUESTION:' + obscure + '}';
+        var obscure = parseInt(idvalue) * 7 + 199;
+        var content = '{QUESTION:' + linkvalue + '|' + obscure + '}';
 
         this.editor.focus();
         this.get('host').insertContentAtFocusPoint(content);
@@ -202,7 +221,7 @@ Y.namespace('M.atto_question').Button = Y.Base.create('button', Y.M.editor_atto.
 			value: null
 		},
 
-		defaultflavor: {
+		defaultlinktext: {
 			value: ''
 		}
 	}

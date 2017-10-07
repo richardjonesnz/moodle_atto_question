@@ -34,9 +34,12 @@ function atto_question_strings_for_js() {
 
     $PAGE->requires->strings_for_js(array('insert',
                                           'cancel',
-                                          'enterflavor',
+                                          'enterlinktext',
+                                          'defaultlinktext_desc',
+                                          'enterquestionid',
+                                          'defaultquestionid',
                                           'dialogtitle'),
-                                    'atto_question');
+                                          'atto_question');
 }
 
 /**
@@ -64,8 +67,11 @@ function atto_question_params_for_js($elementid, $options, $fpoptions) {
     //add our disabled param
     $params['disabled'] = $disabled;
         
-    //add our default flavor
-    $params['defaultflavor'] = get_config('atto_question','defaultflavor');
+    //add our default linktext
+    $params['defaultlinktext'] = get_config('atto_question','defaultlinktext');
+
+    // later to add here the constants to obfuscate the question number
+    // should be configurable within the atto button setting
 
     return $params;
 }

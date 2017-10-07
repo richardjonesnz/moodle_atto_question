@@ -29,7 +29,9 @@ $ADMIN->add('editoratto', new admin_category('atto_question', new lang_string('p
 
 $settings = new admin_settingpage('atto_question_settings', new lang_string('settings', 'atto_question'));
 if ($ADMIN->fulltree) {
-	// An option setting
-	$settings->add(new admin_setting_configtext('atto_question/defaultflavor', 
-		get_string('defaultflavor', 'atto_question'), '', 'vanilla', PARAM_TEXT));
+  // An option setting for the default question link text
+  $settings->add(new admin_setting_configtext('atto_question/defaultlinktext', 
+                                   get_string('defaultlinktext', 'atto_question'), 
+                                   '', 
+                                   get_string('defaultlinktext_desc', 'atto_question'), PARAM_TEXT));
 }
