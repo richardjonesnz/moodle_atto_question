@@ -38,6 +38,9 @@ function atto_question_strings_for_js() {
                                           'defaultlinktext_desc',
                                           'enterquestionid',
                                           'defaultquestionid',
+                                          'enterdisplaymode',
+                                          'defaultdisplaymode',
+                                          'displaymode_desc',
                                           'dialogtitle'),
                                           'atto_question');
 }
@@ -69,9 +72,7 @@ function atto_question_params_for_js($elementid, $options, $fpoptions) {
         
     //add our default linktext
     $params['defaultlinktext'] = get_config('atto_question','defaultlinktext');
-
-    // later to add here the constants to obfuscate the question number
-    // should be configurable within the atto button setting
+    $params['defaultdisplaymode'] = get_config('atto_question','defaultdisplaymode');
 
     return $params;
 }

@@ -213,9 +213,26 @@ Y.namespace('M.atto_question').Button = Y.Base.create('button', Y.M.editor_atto.
             return;
         }
          
+        // deal with the display mode
+        var displaycontrol = this._form.one(SELECTORS.DISPLAYMODECONTROL);
+        var displayvalue = displaycontrol.get('value');
+
+        // Check is there
+        if (!displayvalue) {
+            Y.log('No link text could be found.', 'warn', LOGNAME);
+            return;
+        } else {
+            // Check is popup or embed
+            if( (displayvalue != 'embed') && (displayvalue != 'popup') )
+            {
+            Y.log('No link text could be found.', 'warn', LOGNAME);
+            return;
+            }
+        }
+
         // build content here: {QUESTION} tags and text
         
-        var content = '{QUESTION:' + linkvalue + '|' + idvalue + '}';
+        var content = '{QUESTION:' + linkvalue + '|' + idvalue + '|' + displayvalue + '}';
 
         this.editor.focus();
         this.get('host').insertContentAtFocusPoint(content);

@@ -36,4 +36,7 @@ $string['defaultlinktext'] = 'Text for link to question';
 $string['defaultlinktext_desc'] = 'Answer the question';
 $string['enterquestionid'] = 'Enter question number';
 $string['defaultquestionid'] = '';
+$string['enterdisplaymode'] = 'Enter display mode';
+$string['defaultdisplaymode'] = 'popup';
+$string['displaymode_desc'] = 'Enter "popup" or "embed"';
 $string['question:visible'] = 'Visible';

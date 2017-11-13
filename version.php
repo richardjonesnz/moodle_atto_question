@@ -24,11 +24,10 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-$plugin->version   = 20171113
-00;        // The current plugin version (Date: YYYYMMDDXX)
+$plugin->version   = 2017111301;        // The current plugin version (Date: YYYYMMDDXX)
 $plugin->requires  = 2017042100;        // Requires this Moodle version
 $plugin->component = 'atto_question';   // Full name of the plugin (used for diagnostics).
 $plugin->maturity  = MATURITY_BETA;
 // Human readable version informatiomn
-$plugin->release   = '1.0.0 (Build 20170522)';
+$plugin->release   = '1.1.0 (Build 20170522)';
 

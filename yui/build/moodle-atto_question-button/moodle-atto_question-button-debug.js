@@ -36,35 +36,47 @@ YUI.add('moodle-atto_question-button', function (Y, NAME) {
 var COMPONENTNAME = 'atto_question';
 var TEXTLINKCONTROL = 'question_link';
 var QUESTIONIDCONTROL = 'question_number';
+var DISPLAYMODECONTROL = 'display_mode';
 var LOGNAME = 'atto_question';
 
 var CSS = {
         INPUTSUBMIT: 'atto_media_urlentrysubmit',
         INPUTCANCEL: 'atto_media_urlentrycancel',
         TEXTLINKCONTROL: 'textlinkcontrol',
-        QUESTIONIDCONTROL: 'questionidcontrol'
+        QUESTIONIDCONTROL: 'questionidcontrol',
+        DISPLAYMODECONTROL: 'displaymodecontrol'
     },
     SELECTORS = {
         TEXTLINKCONTROL: '.textlinkcontrol',
-        QUESTIONIDCONTROL: '.questionidcontrol'
+        QUESTIONIDCONTROL: '.questionidcontrol',
+        DISPLAYMODECONTROL: '.displaymodecontrol'
     };
 
 var TEMPLATE = '' +
     '<form class="atto_form">' +
         '<div id="{{elementid}}_{{innerform}}" class="mdl-align">' +
-            '<label for="{{elementid}}_{{TEXTLINKCONTROL}}">{{get_string "enterlinktext" component}}</label>' +
-            '<input class="{{CSS.TEXTLINKCONTROL}}" id="{{elementid}}_{{TEXTLINKCONTROL}}" name="{{elementid}}_{{TEXTLINKCONTROL}}" value="{{defaulttextlink}}" />' +
-            '<label for="{{elementid}}_{{QUESTIONIDCONTROL}}">{{get_string "enterquestionid" component}}</label>' +
-            '<input class="{{CSS.QUESTIONIDCONTROL}}" id="{{elementid}}_{{QUESTIONIDCONTROL}}" name="{{elementid}}_{{QUESTIONIDCONTROL}}" value="{{defaultquestionid}}" />' +
+            '<label for="{{elementid}}_{{TEXTLINKCONTROL}}">' +
+            '{{get_string "enterlinktext" component}}</label>' +
+            '<input class="{{CSS.TEXTLINKCONTROL}}" id="{{elementid}}_{{TEXTLINKCONTROL}}"' +
+            ' name="{{elementid}}_{{TEXTLINKCONTROL}}" value="{{defaulttextlink}}" />' +
+            '<label for="{{elementid}}_{{QUESTIONIDCONTROL}}">' +
+            '{{get_string "enterquestionid" component}}</label>' +
+            '<input class="{{CSS.QUESTIONIDCONTROL}}" id="{{elementid}}_{{QUESTIONIDCONTROL}}"' +
+            ' name="{{elementid}}_{{QUESTIONIDCONTROL}}" value="{{defaultquestionid}}" />' +
+            '<label for="{{elementid}}_{{DISPLAYMODECONTROL}}">' +
+            '{{get_string "enterdisplaymode" component}}</label>' +
+            '<input class="{{CSS.DISPLAYMODECONTROL}}" id="{{elementid}}_{{DISPLAYMODECONTROL}}"' +
+            ' name="{{elementid}}_{{DISPLAYMODECONTROL}}" value="{{defaultdisplaymode}}" />' + 
+            '<br /><br />' +
             '<button class="{{CSS.INPUTSUBMIT}}">{{get_string "insert" component}}</button>' +
         '</div>' +
-        'icon: {{clickedicon}}'  +
+        //'icon: {{clickedicon}}' +
     '</form>';
 
 Y.namespace('M.atto_question').Button = Y.Base.create('button', Y.M.editor_atto.EditorPlugin, [], {
 
   
-	/**
+    /**
      * Initialize the button
      *
      * @method Initializer
@@ -89,7 +101,6 @@ Y.namespace('M.atto_question').Button = Y.Base.create('button', Y.M.editor_atto.
            callbackArgs: theicon
          });
         }, this);
-
     },
 
     /**
@@ -119,8 +130,8 @@ Y.namespace('M.atto_question').Button = Y.Base.create('button', Y.M.editor_atto.
             width: width + 'px',
             focusAfterHide: clickedicon
         });
-		//dialog doesn't detect changes in width without this
-		//if you reuse the dialog, this seems necessary
+        //dialog doesn't detect changes in width without this
+        //if you reuse the dialog, this seems necessary
         if(dialogue.width !== width + 'px'){
             dialogue.set('width',width+'px');
         }
@@ -204,12 +215,26 @@ Y.namespace('M.atto_question').Button = Y.Base.create('button', Y.M.editor_atto.
             return;
         }
          
-        // build content here: {QUESTION} tags and hashed version of the number
-        // I'm just going to obfuscate the number, hashing maybe overkill also
-        // passing the hash decode to PHP is beyond me.
-        var obscure = parseInt(idvalue) * 7 + 199;
-        // Y.log('Obs: ' + obscure, 'warn', LOGNAME);
-        var content = '{QUESTION:' + linkvalue + '|' + obscure + '}';
+        // deal with the display mode
+        var displaycontrol = this._form.one(SELECTORS.DISPLAYMODECONTROL);
+        var displayvalue = displaycontrol.get('value');
+
+        // Check is there
+        if (!displayvalue) {
+            Y.log('No link text could be found.', 'warn', LOGNAME);
+            return;
+        } else {
+            // Check is popup or embed
+            if( (displayvalue != 'embed') && (displayvalue != 'popup') )
+            {
+            Y.log('No link text could be found.', 'warn', LOGNAME);
+            return;
+            }
+        }
+
+        // build content here: {QUESTION} tags and text
+        
+        var content = '{QUESTION:' + linkvalue + '|' + idvalue + '|' + displayvalue + '}';
 
         this.editor.focus();
         this.get('host').insertContentAtFocusPoint(content);
@@ -217,18 +242,18 @@ Y.namespace('M.atto_question').Button = Y.Base.create('button', Y.M.editor_atto.
 
     }
 }, { ATTRS: {
-		disabled: {
-			value: false
-		},
+        disabled: {
+            value: false
+        },
 
-		usercontextid: {
-			value: null
-		},
+        usercontextid: {
+            value: null
+        },
 
-		defaultlinktext: {
-			value: ''
-		}
-	}
+        defaultlinktext: {
+        value: ''
+        }
+    }
 });
 
 
