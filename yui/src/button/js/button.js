@@ -84,7 +84,7 @@ Y.namespace('M.atto_question').Button = Y.Base.create('button', Y.M.editor_atto.
         if (this.get('disabled')){
             return;
         }
-
+/*
         var twoicons = ['iconone'];
         // We are only going to need the one button
         // I know I should really simplify this
@@ -98,8 +98,15 @@ Y.namespace('M.atto_question').Button = Y.Base.create('button', Y.M.editor_atto.
            callback: this._displayDialogue,
            callbackArgs: theicon
          });
-        }, this);
+        }, this);  */
+
+        this.addButton({
+            icon:'icon',
+            iconComponent: 'atto_question',
+            callback: this._displayDialogue
+        });
     },
+
 
     /**
      * Get the id of the text link control where we store the link text for the question
@@ -118,7 +125,7 @@ Y.namespace('M.atto_question').Button = Y.Base.create('button', Y.M.editor_atto.
      * @method _displayDialogue
      * @private
      */
-    _displayDialogue: function(e, clickedicon) {
+    _displayDialogue: function(e) {
         e.preventDefault();
         var width=400;
 
@@ -126,7 +133,7 @@ Y.namespace('M.atto_question').Button = Y.Base.create('button', Y.M.editor_atto.
         var dialogue = this.getDialogue({
             headerContent: M.util.get_string('dialogtitle', COMPONENTNAME),
             width: width + 'px',
-            focusAfterHide: clickedicon
+            focusAfterHide: true
         });
         //dialog doesn't detect changes in width without this
         //if you reuse the dialog, this seems necessary
@@ -135,7 +142,7 @@ Y.namespace('M.atto_question').Button = Y.Base.create('button', Y.M.editor_atto.
         }
 
         //append buttons to iframe
-        var buttonform = this._getFormContent(clickedicon);
+        var buttonform = this._getFormContent();
 
         var bodycontent =  Y.Node.create('<div></div>');
         bodycontent.append(buttonform);
@@ -155,7 +162,7 @@ Y.namespace('M.atto_question').Button = Y.Base.create('button', Y.M.editor_atto.
      * @return {Node} The content to place in the dialogue.
      * @private
      */
-    _getFormContent: function(clickedicon) {
+    _getFormContent: function() {
         var template = Y.Handlebars.compile(TEMPLATE),
             content = Y.Node.create(template({
                 elementid: this.get('host').get('elementid'),
@@ -165,8 +172,8 @@ Y.namespace('M.atto_question').Button = Y.Base.create('button', Y.M.editor_atto.
                 defaultflavor: this.get('defaulttextlink'),
                 QUESTIONIDCONTROL: QUESTIONIDCONTROL,
                 component: COMPONENTNAME,
-                defaultflavor: this.get('defaultquestionid')
-                //clickedicon: clickedicon
+                defaultflavor: this.get('defaultquestionid'),
+                //clickedicon: icon
             }));
 
         this._form = content;
@@ -175,7 +182,7 @@ Y.namespace('M.atto_question').Button = Y.Base.create('button', Y.M.editor_atto.
     },
 
     /**
-     * Inserts the users input onto the page
+     * Inserts the users input onto the page - or an error message
      * @method _getDialogueContent
      * @private
      */
@@ -185,6 +192,9 @@ Y.namespace('M.atto_question').Button = Y.Base.create('button', Y.M.editor_atto.
             focusAfterHide: null
         }).hide();
 
+        //var error_message ='';
+        //var error_found = false;
+
         // deal with the link text
         var linkcontrol = this._form.one(SELECTORS.TEXTLINKCONTROL);
         var linkvalue = linkcontrol.get('value');
@@ -192,6 +202,8 @@ Y.namespace('M.atto_question').Button = Y.Base.create('button', Y.M.editor_atto.
         // Check is there
         if (!linkvalue) {
             Y.log('No link text could be found.', 'warn', LOGNAME);
+            //error_message - 'No link text could be found.';
+            //error_found = true;
             return;
         }
 
@@ -202,6 +214,8 @@ Y.namespace('M.atto_question').Button = Y.Base.create('button', Y.M.editor_atto.
         // Check is there
         if (!idvalue) {
             Y.log('No question id could be found.', 'warn', LOGNAME);
+            //error_message = 'No question id could be found.';
+            //error_found = true;
             return;
         }
 
@@ -210,6 +224,8 @@ Y.namespace('M.atto_question').Button = Y.Base.create('button', Y.M.editor_atto.
         var isnum = /^\d+$/.test(idvalue);
         if (!isnum) {
             Y.log('Requires an integer value', 'warn', LOGNAME);
+            //error_message = 'Requires an integer value.';
+            //error_found = true;
             return;
         }
          
@@ -220,19 +236,22 @@ Y.namespace('M.atto_question').Button = Y.Base.create('button', Y.M.editor_atto.
         // Check is there
         if (!displayvalue) {
             Y.log('No link text could be found.', 'warn', LOGNAME);
+            //error_message = 'No link text could be found.';
+            //error_found = true;
             return;
         } else {
             // Check is popup or embed
             if( (displayvalue != 'embed') && (displayvalue != 'popup') )
             {
-            Y.log('No link text could be found.', 'warn', LOGNAME);
+            Y.log('Neither popup nor embed specified.', 'warn', LOGNAME);
+            //error_message = 'Neither popup nor embed specified.';
+            //error_found = true;
             return;
             }
         }
 
-        // build content here: {QUESTION} tags and text
-        
-        var content = '{QUESTION:' + linkvalue + '|' + idvalue + '|' + displayvalue + '}';
+        // build content here: {QUESTION} tags and text - or error
+        content = '{QUESTION:' + linkvalue + '|' + idvalue + '|' + displayvalue + '}';
 
         this.editor.focus();
         this.get('host').insertContentAtFocusPoint(content);
