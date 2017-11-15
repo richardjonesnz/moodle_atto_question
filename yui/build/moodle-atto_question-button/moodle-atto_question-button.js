@@ -63,10 +63,10 @@ var TEMPLATE = '' +
             '{{get_string "enterquestionid" component}}</label>' +
             '<input class="{{CSS.QUESTIONIDCONTROL}}" id="{{elementid}}_{{QUESTIONIDCONTROL}}"' +
             ' name="{{elementid}}_{{QUESTIONIDCONTROL}}" value="{{defaultquestionid}}" />' +
+            '<br /><br />' +
+            '<input type="checkbox" class="{{CSS.DISPLAYMODECONTROL}}" id="{{elementid}}_{{DISPLAYMODECONTROL}}"' + 
             '<label for="{{elementid}}_{{DISPLAYMODECONTROL}}">' +
             '{{get_string "enterdisplaymode" component}}</label>' +
-            '<input class="{{CSS.DISPLAYMODECONTROL}}" id="{{elementid}}_{{DISPLAYMODECONTROL}}"' +
-            ' name="{{elementid}}_{{DISPLAYMODECONTROL}}" value="{{defaultdisplaymode}}" />' + 
             '<br /><br />' +
             '<button class="{{CSS.INPUTSUBMIT}}">{{get_string "insert" component}}</button>' +
         '</div>' +
