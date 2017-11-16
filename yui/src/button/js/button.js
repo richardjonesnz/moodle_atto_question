@@ -231,27 +231,15 @@ Y.namespace('M.atto_question').Button = Y.Base.create('button', Y.M.editor_atto.
          
         // deal with the display mode
         var displaycontrol = this._form.one(SELECTORS.DISPLAYMODECONTROL);
-        var displayvalue = displaycontrol.get('value');
-
-        // Check is there
-        if (!displayvalue) {
-            Y.log('No link text could be found.', 'warn', LOGNAME);
-            //error_message = 'No link text could be found.';
-            //error_found = true;
-            return;
+        var displayvalue = displaycontrol.get('checked');
+        if (displayvalue) {
+            displaytext = 'popup';
         } else {
-            // Check is popup or embed
-            if( (displayvalue != 'embed') && (displayvalue != 'popup') )
-            {
-            Y.log('Neither popup nor embed specified.', 'warn', LOGNAME);
-            //error_message = 'Neither popup nor embed specified.';
-            //error_found = true;
-            return;
-            }
+            displaytext = 'embed';
         }
 
         // build content here: {QUESTION} tags and text - or error
-        content = '{QUESTION:' + linkvalue + '|' + idvalue + '|' + displayvalue + '}';
+        content = '{QUESTION:' + linkvalue + '|' + idvalue + '|' + displaytext + '}';
 
         this.editor.focus();
         this.get('host').insertContentAtFocusPoint(content);
