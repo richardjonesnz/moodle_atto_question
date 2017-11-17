@@ -49,7 +49,7 @@ function atto_question_strings_for_js() {
  * Return the js params required for this module.
  * @return array of additional params to pass to javascript init function for this module.
  */
-function atto_question_params_for_js($elementid, $options, $fpoptions) {
+function atto_question_params_for_js(/*$elementid, $options, $fpoption^*/) {
 	global $USER, $COURSE;
 	//coursecontext
 	$coursecontext=context_course::instance($COURSE->id);	

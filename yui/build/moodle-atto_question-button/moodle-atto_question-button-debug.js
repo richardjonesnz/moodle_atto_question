@@ -70,12 +70,9 @@ var TEMPLATE = '' +
             '<br /><br />' +
             '<button class="{{CSS.INPUTSUBMIT}}">{{get_string "insert" component}}</button>' +
         '</div>' +
-        //'icon: {{clickedicon}}' +
     '</form>';
 
-Y.namespace('M.atto_question').Button = Y.Base.create('button', Y.M.editor_atto.EditorPlugin, [], {
-
-  
+Y.namespace('M.atto_question').Button = Y.Base.create('button', Y.M.editor_atto.EditorPlugin, [], { 
     /**
      * Initialize the button
      *
@@ -86,21 +83,6 @@ Y.namespace('M.atto_question').Button = Y.Base.create('button', Y.M.editor_atto.
         if (this.get('disabled')){
             return;
         }
-/*
-        var twoicons = ['iconone'];
-        // We are only going to need the one button
-        // I know I should really simplify this
-
-        Y.Array.each(twoicons, function(theicon) {
-        // Add the question icon/button
-        this.addButton({
-           icon: 'ed/' + twoicons,
-           iconComponent: 'atto_question',
-           buttonName: theicon,
-           callback: this._displayDialogue,
-           callbackArgs: theicon
-         });
-        }, this);  */
 
         this.addButton({
             icon:'icon',
@@ -194,8 +176,8 @@ Y.namespace('M.atto_question').Button = Y.Base.create('button', Y.M.editor_atto.
             focusAfterHide: null
         }).hide();
 
-        //var error_message ='';
-        //var error_found = false;
+        var error_message ='';
+        var error_found = false;
 
         // deal with the link text
         var linkcontrol = this._form.one(SELECTORS.TEXTLINKCONTROL);
@@ -204,9 +186,9 @@ Y.namespace('M.atto_question').Button = Y.Base.create('button', Y.M.editor_atto.
         // Check is there
         if (!linkvalue) {
             Y.log('No link text could be found.', 'warn', LOGNAME);
-            //error_message - 'No link text could be found.';
-            //error_found = true;
-            return;
+            error_message - 'No link text could be found.';
+            error_found = true;
+            //return;
         }
 
         // get the question number
@@ -216,9 +198,9 @@ Y.namespace('M.atto_question').Button = Y.Base.create('button', Y.M.editor_atto.
         // Check is there
         if (!idvalue) {
             Y.log('No question id could be found.', 'warn', LOGNAME);
-            //error_message = 'No question id could be found.';
-            //error_found = true;
-            return;
+            error_message = 'No question id could be found.';
+            error_found = true;
+            //return;
         }
 
 
@@ -226,9 +208,9 @@ Y.namespace('M.atto_question').Button = Y.Base.create('button', Y.M.editor_atto.
         var isnum = /^\d+$/.test(idvalue);
         if (!isnum) {
             Y.log('Requires an integer value', 'warn', LOGNAME);
-            //error_message = 'Requires an integer value.';
-            //error_found = true;
-            return;
+            error_message = 'Question id requires an integer value.';
+            error_found = true;
+           // return;
         }
          
         // deal with the display mode
@@ -241,7 +223,11 @@ Y.namespace('M.atto_question').Button = Y.Base.create('button', Y.M.editor_atto.
         }
 
         // build content here: {QUESTION} tags and text - or error
-        content = '{QUESTION:' + linkvalue + '|' + idvalue + '|' + displaytext + '}';
+        if (!error_found) {
+            content = '{QUESTION:' + linkvalue + '|' + idvalue + '|' + displaytext + '}';
+        } else {
+            content = '{QUESTION:' + error_message + '}';
+        }
 
         this.editor.focus();
         this.get('host').insertContentAtFocusPoint(content);
