@@ -15,10 +15,10 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Atto text editor integration version file.
+ * Atto button insert question - based on a template by Justin Hunt
  *
  * @package    atto_question
- * @copyright  COPYRIGHTINFO
+ * @copyright  Richard Jones {@link http://richardnz.net/}
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -31,6 +31,7 @@ defined('MOODLE_INTERNAL') || die();
  */
 function atto_question_strings_for_js() {
     global $PAGE;
+
 
     $PAGE->requires->strings_for_js(array('insert',
                                           'cancel',
@@ -74,6 +75,10 @@ function atto_question_params_for_js(/*$elementid, $options, $fpoption^*/) {
     $params['defaultlinktext'] = get_config('atto_question','defaultlinktext');
     $params['defaultdisplaymode'] = get_config('atto_question','defaultdisplaymode');
 
+    // Get the configured start and end tags from Simple question
+     $def_config = get_config('filter_simplequestion');
+     $params['starttag'] = $def_config->starttag; 
+     $params['endtag'] = $def_config->endtag; 
     return $params;
 }
 

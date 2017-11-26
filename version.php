@@ -18,16 +18,16 @@
  * Atto question  version file.
  *
  * @package    atto_question
- * @copyright  COPYRIGHTINFO
+ * @copyright  Richard Jones {@link http://richardnz.net/}
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 defined('MOODLE_INTERNAL') || die();
 
-$plugin->version   = 2017111700;        // The current plugin version (Date: YYYYMMDDXX)
+$plugin->version   = 2017112702;        // The current plugin version (Date: YYYYMMDDXX)
 $plugin->requires  = 2017042100;        // Requires this Moodle version
 $plugin->component = 'atto_question';   // Full name of the plugin (used for diagnostics).
 $plugin->maturity  = MATURITY_BETA;
 // Human readable version informatiomn
-$plugin->release   = '1.5';
+$plugin->release   = '1.5.1';  // hard-coded question tags
 
