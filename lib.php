@@ -70,10 +70,6 @@ function atto_question_params_for_js(/*$elementid, $options, $fpoption^*/) {
         
     //add our disabled param
     $params['disabled'] = $disabled;
-        
-    //add our default linktext
-    //$params['defaultlinktext'] = get_config('atto_question','defaultlinktext');
-    //$params['defaultdisplaymode'] = get_config('atto_question','defaultdisplaymode');
 
     // Get the configured start and end tags from Simple question
      $def_config = get_config('filter_simplequestion');

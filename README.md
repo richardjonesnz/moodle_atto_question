@@ -1,30 +1,30 @@
 An ATTO button for Simple Question filter
 =========================================
-
-Based on template from  Justin Hunt, the POODLL guy at  
-https://github.com/justinhunt/moodle-atto_newtemplate
-
 Creates a button that inserts a text link, question number and display mode into 
-Moodle editable text  with delimiter tags which will be picked up by moodle_filter_simplequestion.
+Moodle editable text with delimiter tags which will be picked up by moodle_filter_simplequestion.
 
 Using this button (not available to students), teachers can select a question from the
 current course question bank to be inserted.
 
 Tested and working with Moodle 3.3 and 3.4.
 
-NOTE: The start and end tags for the question to be inserted and picked up by the filter simplequestion are hard-coded in the button.  I do not know how to access the config of simplequestion from this plugin.
-
 Version
 =======
-1.5 still in beta testing, help welcome.
+1.5.2 still in beta testing, help welcome.
 
 Configuration
 =============
-None.
+Requires plugin filter_simplequestion version 1.5.2 or higher.
 
-Known bugs, Todos
+Documentation
 =================
-Documentation and screenshots to add to https://richardnz.net/simplequestion.html
+Documentation and screenshots at https://open-learning.co.nz/course/view.php?id=16
+Guest login permitted.
+
+Acknowledgement
+===============
+Based on template from  Justin Hunt, the POODLL guy at  
+https://github.com/justinhunt/moodle-atto_newtemplate
 
 Questions and suggestions
 =========================
