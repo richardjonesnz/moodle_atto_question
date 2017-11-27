@@ -222,7 +222,9 @@ Y.namespace('M.atto_question').Button = Y.Base.create('button', Y.M.editor_atto.
 
         // build content here: {QUESTION} tags and text - or error
         if (!error_found) {
-            content = '{QUESTION:' + linkvalue + '|' + idvalue + '|' + displaytext + '}';
+
+            content = this.get('starttag') + linkvalue + '|' + idvalue + '|' + displaytext + 
+                      this.get('endtag');
         } else {
             content = '{QUESTION:' + error_message + '}';
         }
@@ -241,7 +243,10 @@ Y.namespace('M.atto_question').Button = Y.Base.create('button', Y.M.editor_atto.
             value: null
         },
 
-        defaultlinktext: {
+        starttag: {
+        value: ''
+        },
+        endtag: {
         value: ''
         }
     }
