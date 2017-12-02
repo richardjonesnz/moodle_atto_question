@@ -226,7 +226,7 @@ Y.namespace('M.atto_question').Button = Y.Base.create('button', Y.M.editor_atto.
             content = this.get('starttag') + linkvalue + '|' + idvalue + '|' + displaytext + 
                       this.get('endtag');
         } else {
-            content = '{QUESTION:' + error_message + '}';
+            content = '{{QUESTION:' + error_message + '}}';
         }
 
         this.editor.focus();

@@ -18,8 +18,10 @@ Requires plugin filter_simplequestion version 1.5.2 or higher.
 
 Documentation
 =================
-Documentation and screenshots at https://open-learning.co.nz/course/view.php?id=16
-Guest login permitted.
+Documentation and screenshots at https://open-learning.co.nz/
+*Select "Open Courses"icon on front page
+*Click "Simple Question Demonstration"
+*Login as guest
 
 Acknowledgement
 ===============
@@ -35,6 +37,6 @@ November 2017
 
 Moodle
 ======
-Tested in Moodle 3.3 and 3.4
+Tested in Moodle 3.1, 3.2, 3.3 and 3.4
 Tested on Chrome, Firefox and Edge browsers
-Debian Stretch, Apache2, PHP 7.1, Postgres 9.2.
+Debian Stretch, Apache2, PHP 7.1, Postgres 9.2., MariaDB 10.1.26

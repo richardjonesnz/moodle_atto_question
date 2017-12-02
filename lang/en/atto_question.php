@@ -23,7 +23,7 @@
  */
 
 $string['createquestion'] = 'Create question';
-$string['pluginname'] = 'question';
+$string['pluginname'] = 'Question';
 $string['settings'] = 'question';
 $string['browse'] = 'Browse';
 $string['visible'] = 'Visible';

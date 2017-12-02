@@ -24,11 +24,11 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-$plugin->version   = 2017112802;        // The current plugin version (Date: YYYYMMDDXX)
-$plugin->requires  = 2017042100;        // Requires this Moodle version
+$plugin->version   = 2017120100;        // The current plugin version (Date: YYYYMMDDXX)
+$plugin->requires  = 2016052300;        // // tested on Moodle 3.1-3.4 only
 $plugin->component = 'atto_question';   // Full name of the plugin (used for diagnostics).
 $plugin->maturity  = MATURITY_BETA;
 // Human readable version information
-$plugin->release   = '1.5.2';  // question tags from filter config
+$plugin->release   = '1.5.3';  // minor updates
 // Won't be any use without the filter
 $plugin->dependencies = array('filter_simplequestion'=>2017112802);
